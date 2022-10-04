@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 import asyncio
 import logging
+import os
+
 
 from telethon import TelegramClient, events
 
@@ -38,7 +40,14 @@ async def my_event_handler(event):
                 if config.FORWARD:
                     await client.forward_messages(relay, event.message)
                 else:
-                    await client.send_message(relay, event.message)
+                    if event.message.media:
+                        file_name = await client.download_media(event.message.media)
+                        await client.send_message(relay, event.message.text, file=file_name)
+                        if os.path.exists(file_name):
+                            os.remove(file_name)
+                            logger.info(f'remove {file_name}')
+                    else:
+                        await client.send_message(relay, event.message)
             break
     else:
         for relay in RELAY_MAP.get('default', []):
@@ -46,7 +55,14 @@ async def my_event_handler(event):
             if config.FORWARD:
                 await client.forward_messages(relay, event.message)
             else:
-                await client.send_message(relay, event.message)
+                if event.message.media:
+                    file_name = await client.download_media(event.message.media)
+                    await client.send_message(relay, event.message.text, file=file_name)
+                    if os.path.exists(file_name):
+                        os.remove(file_name)
+                        logger.info(f'remove {file_name}')
+                else:
+                    await client.send_message(relay, event.message)
 
 loop = asyncio.get_event_loop()
 loop.run_until_complete(setup())

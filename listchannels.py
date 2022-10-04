@@ -12,4 +12,4 @@ client.start()
 
 print('Channel | ID')
 for dialog in client.get_dialogs():
-    print(f'{dialog.name} | {dialog.entity.id}')
+    print(f'{dialog.name:30} | {dialog.entity.id}')
