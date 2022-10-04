@@ -1,0 +1,1 @@
+docker run -e FORWARD=False -e RELAY_MAP=<RELAY_MAP> -e API_ID=<API_ID> -e API_HASH=<API_HASH> -e SESSION_NAME="/data/session.session" -v $(pwd)/data:/data tg-relay
