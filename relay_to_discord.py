@@ -58,7 +58,7 @@ async def my_event_handler(event):
                             os.remove(file_name)
                             logger.info(f'remove {file_name}')
                     else:
-                        send_discord_message(event.message.txt)
+                        send_discord_message(event.message.text)
             break
     else:
         for relay in RELAY_MAP.get('default', []):
@@ -75,7 +75,7 @@ async def my_event_handler(event):
                         os.remove(file_name)
                         logger.info(f'remove {file_name}')
                 else:
-                    send_discord_message(event.message.txt)
+                    send_discord_message(event.message.text)
 
 loop = asyncio.get_event_loop()
 loop.run_until_complete(setup())
