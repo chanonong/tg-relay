@@ -15,7 +15,8 @@ client.start()
 
 RELAY_MAP = {}
 
-DISCORD_WEBHOOK_URL = "https://discord.com/api/webhooks/1027869902519931020/jCwdptYrCmOfRcFtkGIKkZ34vWk_LTk2joEp6jFQnEG9hIQenv2Ukib4HEcMir0QQk17"
+# Oz
+DISCORD_WEBHOOK_URL = "https://discord.com/api/webhooks/1027861275474141185/ld0wF95unPF4DPcikRQ-oe0CD_YdUyb7zTyiDs13OisQUvkkAJormNN0GzgN05uOhaJq"
 
 def send_discord_message(message):
     req = requests.post(DISCORD_WEBHOOK_URL, data={"content":message})
@@ -46,27 +47,6 @@ async def my_event_handler(event):
         if event.chat and event.chat.id == chat_id:
             for relay in relays:
                 logger.info('Sending message from {} to {}'.format(event.chat.id, relay))
-                if config.FORWARD:
-                    # await client.forward_messages(relay, event.message)
-                    print("Disable Forward")
-                else:
-                    if event.message.media:
-                        file_name = await client.download_media(event.message.media)
-                        send_discord_image(file_name, event.message.text)
-                        # await client.send_message(relay, event.message.text, file=file_name)
-                        if os.path.exists(file_name):
-                            os.remove(file_name)
-                            logger.info(f'remove {file_name}')
-                    else:
-                        send_discord_message(event.message.text)
-            break
-    else:
-        for relay in RELAY_MAP.get('default', []):
-            logger.info('Sending message from {} to {}'.format(event.chat.id, relay))
-            if config.FORWARD:
-                    # await client.forward_messages(relay, event.message)
-                    print("Disable Forward")
-            else:
                 if event.message.media:
                     file_name = await client.download_media(event.message.media)
                     send_discord_image(file_name, event.message.text)
@@ -76,6 +56,19 @@ async def my_event_handler(event):
                         logger.info(f'remove {file_name}')
                 else:
                     send_discord_message(event.message.text)
+            break
+    else:
+        for relay in RELAY_MAP.get('default', []):
+            logger.info('Sending message from {} to {}'.format(event.chat.id, relay))
+            if event.message.media:
+                file_name = await client.download_media(event.message.media)
+                send_discord_image(file_name, event.message.text)
+                # await client.send_message(relay, event.message.text, file=file_name)
+                if os.path.exists(file_name):
+                    os.remove(file_name)
+                    logger.info(f'remove {file_name}')
+            else:
+                send_discord_message(event.message.text)
 
 loop = asyncio.get_event_loop()
 loop.run_until_complete(setup())
