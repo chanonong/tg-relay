@@ -18,7 +18,7 @@ RELAY_MAP = {}
 DISCORD_WEBHOOK_URL = "https://discord.com/api/webhooks/1027869902519931020/jCwdptYrCmOfRcFtkGIKkZ34vWk_LTk2joEp6jFQnEG9hIQenv2Ukib4HEcMir0QQk17"
 
 def send_discord_message(message):
-    req = requests.post(DISCORD_WEBHOOK_URL, message)
+    req = requests.post(DISCORD_WEBHOOK_URL, data={"content":message})
 
 def send_discord_image(file_path, message):
     files = {"file":(file_path, open(+file_path, "rb"),'application-type')}
