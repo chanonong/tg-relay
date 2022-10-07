@@ -66,16 +66,16 @@ async def my_event_handler(event):
             if config.FORWARD:
                     # await client.forward_messages(relay, event.message)
                     print("Disable Forward")
+            else:
+                if event.message.media:
+                    file_name = await client.download_media(event.message.media)
+                    send_discord_image(file_name, event.message.text)
+                    # await client.send_message(relay, event.message.text, file=file_name)
+                    if os.path.exists(file_name):
+                        os.remove(file_name)
+                        logger.info(f'remove {file_name}')
                 else:
-                    if event.message.media:
-                        file_name = await client.download_media(event.message.media)
-                        send_discord_image(file_name, event.message.text)
-                        # await client.send_message(relay, event.message.text, file=file_name)
-                        if os.path.exists(file_name):
-                            os.remove(file_name)
-                            logger.info(f'remove {file_name}')
-                    else:
-                        await client.send_message(relay, event.message)
+                    await client.send_message(relay, event.message)
 
 loop = asyncio.get_event_loop()
 loop.run_until_complete(setup())
