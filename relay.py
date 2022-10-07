@@ -2,8 +2,6 @@
 import asyncio
 import logging
 import os
-
-
 from telethon import TelegramClient, events
 
 import config
@@ -16,6 +14,13 @@ client.start()
 
 RELAY_MAP = {}
 
+discord_webhook_url = "https://discord.com/api/webhooks/1027861275474141185/ld0wF95unPF4DPcikRQ-oe0CD_YdUyb7zTyiDs13OisQUvkkAJormNN0GzgN05uOhaJq"
+
+def send_discord_message(message):
+    pass
+
+def send_discord_image(file_name):
+    pass
 
 async def setup():
     user = await client.get_me()
