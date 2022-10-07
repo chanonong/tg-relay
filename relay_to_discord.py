@@ -21,7 +21,7 @@ def send_discord_message(message):
     req = requests.post(DISCORD_WEBHOOK_URL, data={"content":message})
 
 def send_discord_image(file_path, message):
-    files = {"file":(file_path, open(+file_path, "rb"),'application-type')}
+    files = {"file":(file_path, open(file_path, "rb"),'application-type')}
     payload={"content": message}
     req = requests.post(DISCORD_WEBHOOK_URL, data=payload, file=files)
 
